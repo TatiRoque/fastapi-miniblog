@@ -16,6 +16,14 @@ def create_app() -> FastAPI:
     app = FastAPI(title="Mini Blog")
     Base.metadata.create_all(bind=engine)  # dev
 
+    @app.get("/", tags=["root"])
+    def root():
+        return {
+            "message": "Mini Blog API funcionando",
+            "docs": "/docs",
+            "posts": "/posts",
+        }
+
     app.include_router(auth_router, prefix="/api/v1")
     app.include_router(post_router)
     app.include_router(upload_router)  # Add the upload router
